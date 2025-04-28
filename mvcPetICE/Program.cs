@@ -1,3 +1,6 @@
+using Microsoft.EntityFrameworkCore;
+using mvcPetICE.Models;
+
 namespace mvcPetICE
 {
     public class Program
@@ -8,6 +11,9 @@ namespace mvcPetICE
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+
+            builder.Services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
             var app = builder.Build();
 
