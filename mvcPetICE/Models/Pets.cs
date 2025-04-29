@@ -7,5 +7,6 @@
         public int Age { get; set; }
         public string Breed {  get; set; }
         public string AdoptionStatus { get; set; }
+        public string Images {  get; set; }
     }
 }

@@ -110,13 +110,28 @@ namespace mvcPetICE.Controllers
             {
                 return NotFound();
             }
-            var Pets = await _context.Pets.FirstOrDefaultAsync(c => c.PetsId == id);
+            var Pets = await _context.Pets.FirstOrDefaultAsync(c => c.Id == id);
 
             if (Pets == null)
             {
                 return NotFound();
             }
             return View(Pets);
+        }
+
+        [HttpPost]
+
+        public async Task<IActionResult> Delete(int id)
+        {
+            var Pets = await _context.Pets.FindAsync(id);
+
+            if (Pets == null)
+            {
+                return NotFound();
+            }
+            _context.Pets.Remove(Pets);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
 
         [HttpPost]

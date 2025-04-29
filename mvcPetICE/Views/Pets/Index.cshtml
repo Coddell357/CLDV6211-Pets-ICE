@@ -24,6 +24,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.AdoptionStatus)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Images)
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -41,6 +44,9 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.AdoptionStatus)
+            </td>
+             <td>
+                <img src="@item.Images" alt="Picture of Pet" width="100" height="100" />
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
