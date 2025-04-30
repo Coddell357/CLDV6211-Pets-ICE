@@ -7,6 +7,32 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/mvcPetICE.styles.css" asp-append-version="true" />
+    <style>
+        /* Background image applied to the body */
+        body {
+            background-image: url("/Images/BG-Paws.jpg"); 
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            min-height: 100vh;
+        }
+
+            body::after {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.2); /* Black with 20% opacity */
+                z-index: -1; /* Ensure the overlay is behind the content */
+            }
+
+        .container {
+            background: rgba(255, 255, 255, 0.8); /* Semi-transparent white */
+            padding: 20px;
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -26,7 +52,7 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Pets" asp-action="Privacy">Pets</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Pets" asp-action="Index">Pets</a>
                         </li>
                     </ul>
                 </div>
