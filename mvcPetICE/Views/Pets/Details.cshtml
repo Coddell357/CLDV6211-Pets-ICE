@@ -37,9 +37,10 @@
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Images)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Images)
-        </dd>
+        @if (!string.IsNullOrEmpty(Model.Images))
+        {
+            <img src="@Model.Images" class="img-fluid" alt="Pet Image" />
+        }
     </dl>
 </div>
 <div>

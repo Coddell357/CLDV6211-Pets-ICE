@@ -1,4 +1,6 @@
-﻿namespace mvcPetICE.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace mvcPetICE.Models
 {
     public class Pets
     {

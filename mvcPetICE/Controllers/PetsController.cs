@@ -24,6 +24,13 @@ namespace mvcPetICE.Controllers
             return View(Pets);
         }
 
+        public IActionResult RandomPet()
+        {
+            var Pet = _context.Pets.OrderBy(r => Guid.NewGuid()).FirstOrDefault();
+            ViewBag.IsRandom = true;
+            return View("Details", Pet);
+        }
+
         public async Task<IActionResult> Details(int id)
         {
             var Pets = await _context.Pets
@@ -41,14 +48,25 @@ namespace mvcPetICE.Controllers
         }
         [HttpPost]
 
-        public async Task<IActionResult> Create(Pets Pets)
+        public async Task<IActionResult> Create(Pets Pets, IFormFile ImageFile)
         {
+
+            if (ImageFile == null || ImageFile.Length == 0)
+            {
+                ModelState.AddModelError("ImageFile", "Pet photo is required.");
+            }
+
             if (ModelState.IsValid)
             {
+                // Upload image to Azure and get the URL
+                string imageUrl = await UploadFileToBlobStorageAsync(ImageFile);
+                Pets.Images = imageUrl;
+
                 _context.Add(Pets);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+
             return View(Pets);
         }
 
@@ -144,6 +162,7 @@ namespace mvcPetICE.Controllers
             }
             //Redirect back to the Index view to refresh the file list
             return RedirectToAction("Index");
+            
         }
 
         public IActionResult ViewFile(string fileUrl)
@@ -168,7 +187,7 @@ namespace mvcPetICE.Controllers
 
             return imageUrls;
         }
-        private async Task UploadFileToBlobStorageAsync(IFormFile uploadedFile)
+        private async Task<string> UploadFileToBlobStorageAsync(IFormFile uploadedFile)
         {
             var containerClient = new BlobContainerClient(connectionString, containerName);
             await containerClient.CreateIfNotExistsAsync(PublicAccessType.Blob); //Ensure the container exists
@@ -180,6 +199,7 @@ namespace mvcPetICE.Controllers
             {
                 await blobClient.UploadAsync(stream, true);
             }
+            return blobClient.Uri.ToString();
         }
     }
     }
